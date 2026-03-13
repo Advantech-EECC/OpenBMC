@@ -8,5 +8,6 @@ SRC_URI += " \
             file://0001-Modify-for-ADVANTECH-SOM-RM10-support-it-in-Ast2600-.patch \
             file://0002-Enable-VUART-DMA-mode.patch \
             file://0003-Add-battery-sensing-solution.patch \
+            file://0004-Add-EEPROM-and-I2C-Slave.patch \
            "
 

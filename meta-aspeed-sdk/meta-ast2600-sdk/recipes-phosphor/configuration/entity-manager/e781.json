@@ -1,0 +1,180 @@
+{
+  "Exposes": [
+    {
+       "Address": 48,
+       "Class": "IpmbDevice",
+       "Name": "EC_781",
+       "PowerState": "chassisOn",
+       "Type": "IpmbDevice",	   
+       "Bus": 0
+    },
+    {
+        "Type": "IpmbSensor",    
+        "Name": "E781_CPU0_Temperature",
+        "Class": "ECTemp",
+		"PollRate": 10,
+		"Address": 16,	
+        "ScaleValue": 0.50,			
+        "Thresholds": [
+			{
+				"Direction": "greater than",
+				"Name": "upper critical",
+				"Severity": 1,
+				"Value": 70
+			},
+			{
+				"Direction": "greater than",
+				"Name": "upper non critical",
+				"Severity": 0,
+				"Value": 65
+			},
+			{
+				"Direction": "less than",
+				"Name": "lower non critical",
+				"Severity": 0,
+				"Value": 5
+			},
+			{
+				"Direction": "less than",
+				"Name": "lower critical",
+				"Severity": 1,
+				"Value": 0
+			}
+			]
+      },
+      {
+            "Type": "IpmbSensor",
+			"SensorType": "voltage",
+			"Name": "E781_12V",
+			"Class": "ECSensor",
+			"PollRate": 10,
+            "ScaleValue": 0.1,			
+            "Thresholds": [
+                {
+                    "Direction": "greater than",
+                    "Name": "upper critical",
+                    "Severity": 1,
+                    "Value": 13.2
+                },
+                {
+                    "Direction": "greater than",
+                    "Name": "upper non critical",
+                    "Severity": 0,
+                    "Value": 12.6
+                },
+                {
+                    "Direction": "less than",
+                    "Name": "lower non critical",
+                    "Severity": 0,
+                    "Value": 11.4
+                },
+                {
+                    "Direction": "less than",
+                    "Name": "lower critical",
+                    "Severity": 1,
+                    "Value": 10.8
+                }
+            ],
+		"Address": 32            
+    },
+    {
+            "Type": "IpmbSensor",
+			"SensorType": "voltage",
+			"Name": "E781_5V",
+			"PollRate": 10,
+			"Class": "ECSensor",
+            "ScaleValue": 0.1,			
+            "Thresholds": [
+                {
+                    "Direction": "greater than",
+                    "Name": "upper critical",
+                    "Severity": 1,
+                    "Value": 5.5
+                },
+                {
+                    "Direction": "greater than",
+                    "Name": "upper non critical",
+                    "Severity": 0,
+                    "Value": 5.25
+                },
+                {
+                    "Direction": "less than",
+                    "Name": "lower non critical",
+                    "Severity": 0,
+                    "Value": 4.75
+                },
+                {
+                    "Direction": "less than",
+                    "Name": "lower critical",
+                    "Severity": 1,
+                    "Value": 4.5
+                }
+            ],
+		"Address": 33
+	},
+    {
+            "Type": "IpmbSensor",
+			"SensorType": "voltage",
+			"Name": "E781_V_CMOS",
+			"PollRate": 10,
+			"Class": "ECSensor", 
+            "ScaleValue": 0.1,			
+            "Thresholds": [
+                {
+                    "Direction": "greater than",
+                    "Name": "upper critical",
+                    "Severity": 1,
+                    "Value": 3.0
+                },
+                {
+                    "Direction": "greater than",
+                    "Name": "upper non critical",
+                    "Severity": 0,
+                    "Value": 2.9
+                },
+                {
+                    "Direction": "less than",
+                    "Name": "lower non critical",
+                    "Severity": 0,
+                    "Value": 2.6
+                },
+                {
+                    "Direction": "less than",
+                    "Name": "lower critical",
+                    "Severity": 1,
+                    "Value": 2.0
+                }
+            ],
+		"Address": 34
+	},
+    {
+        "Type": "IpmbSensor",
+		"SensorType": "utilization",
+		"Name": "E781_SYS0_FAN",
+		"PollRate": 10,
+		"Class": "ECSensor",  
+        "Address": 64
+	},
+    {
+        "Type": "IpmbSensor",
+		"SensorType": "utilization",
+		"Name": "E781_OEM0_FAN",
+		"PollRate": 10,
+		"Class": "ECSensor", 
+		"Address": 65
+	}
+  ],
+  "Name": "SOM-E781",
+  "Probe": "TRUE",
+  "Type": "Board",
+  "xyz.openbmc_project.Inventory.Decorator.Asset": {
+    "Manufacturer": "$PRODUCT_MANUFACTURER Co., Ltd.",
+    "Model": "$PRODUCT_PRODUCT_NAME",
+    "PartNumber": "$PRODUCT_PART_NUMBER",
+    "SerialNumber": "$PRODUCT_SERIAL_NUMBER"
+  },
+  "xyz.openbmc_project.Inventory.Decorator.Replaceable": {
+    "FieldReplaceable": true,
+    "HotPluggable": true
+  }
+}

@@ -1,0 +1,96 @@
+From c139ba98a02ed1963c1d327308104f74b36688dd Mon Sep 17 00:00:00 2001
+From: Ramiro Oliveira <ramiro.oliveira@advantech.com>
+Date: Fri, 13 Mar 2026 10:34:54 +0000
+Subject: [PATCH] Adding EC sensor
+
+Signed-off-by: Ramiro Oliveira <ramiro.oliveira@advantech.com>
+---
+ src/IpmbSensor.cpp | 15 ++++++++++++++-
+ src/IpmbSensor.hpp | 20 +++++++++++++++++++-
+ 2 files changed, 33 insertions(+), 2 deletions(-)
+
+diff --git a/src/IpmbSensor.cpp b/src/IpmbSensor.cpp
+index fbc4b7d..7bde014 100644
+--- a/src/IpmbSensor.cpp
++++ b/src/IpmbSensor.cpp
+@@ -53,6 +53,7 @@ static constexpr double ipmbMaxReading = 0xFF;
+ static constexpr double ipmbMinReading = 0;
+ 
+ static constexpr uint8_t meAddress = 1;
++static constexpr uint8_t ecAddress = 0;
+ static constexpr uint8_t lun = 0;
+ static constexpr uint8_t hostSMbusIndexDefault = 0x03;
+ static constexpr uint8_t ipmbBusIndexDefault = 0;
+@@ -276,6 +277,14 @@ void IpmbSensor::loadDefaults()
+                 throw std::runtime_error("Invalid sensor type");
+         }
+     }
++    else if (type == IpmbType::ecSensor)
++    {
++        commandAddress = ecAddress;
++        netfn = ipmi::sensor::netFn;
++        command = ipmi::sensor::getSensorReading;
++        commandData = {deviceAddress};
++        readingFormat = ReadingFormat::byte0;
++    }
+     else
+     {
+         throw std::runtime_error("Invalid sensor type");
+@@ -303,7 +312,7 @@ bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
+         case (ReadingFormat::byte0):
+         {
+             if (command == ipmi::sensor::getSensorReading &&
+-                !ipmi::sensor::isValid(data))
++               !((ipmi::sensor::isValid(data)) || (ipmi::sensor::isValidEC(data))))
+             {
+                 return false;
+             }
+@@ -536,6 +545,10 @@ bool IpmbSensor::sensorClassType(const std::string& sensorClass)
+     {
+         type = IpmbType::meSensor;
+     }
++    else if (sensorClass == "ECTemp" || sensorClass == "ECSensor")
++    {
++        type = IpmbType::ecSensor;
++    }
+     else if (sensorClass == "SMPro")
+     {
+         type = IpmbType::SMPro;
+diff --git a/src/IpmbSensor.hpp b/src/IpmbSensor.hpp
+index 953e44a..a12e1f6 100644
+--- a/src/IpmbSensor.hpp
++++ b/src/IpmbSensor.hpp
+@@ -21,7 +21,8 @@ enum class IpmbType
+     IR38363VR,
+     ADM1278HSC,
+     mpsVR,
+-    SMPro
++    SMPro,
++    ecSensor
+ };
+ 
+ enum class IpmbSubType
+@@ -74,6 +75,23 @@ static inline bool isValid(const std::vector<uint8_t>& data)
+     return true;
+ }
+ 
++static inline bool isValidEC(const std::vector<uint8_t>& data)
++{
++    constexpr auto readingUnavailableBit = 5;
++
++    if (data.size() != 2)
++    {
++        return false;
++    }
++
++    if ((data[1] & (1 << readingUnavailableBit)) != 0)
++    {
++        return false;
++    }
++
++    return true;
++}
++
+ } // namespace sensor
+ namespace me_bridge
+ {

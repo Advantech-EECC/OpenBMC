@@ -14,3 +14,9 @@ PACKAGECONFIG = "adcsensor"
 PACKAGECONFIG:append = " fansensor"
 PACKAGECONFIG:append = " hwmontempsensor"
 PACKAGECONFIG:append = " intrusionsensor"
+PACKAGECONFIG:append = " ipmbsensor"
+
+SRC_URI += " \
+	file://0001-Adding-EC-sensor.patch \
+	"
+
